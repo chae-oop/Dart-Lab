@@ -135,8 +135,20 @@ void viewAssignments() {
 
 void viewStorageBox() {
   print("\n$bold$yellow Last Assignment Stored:$reset");
+  // Find the last role assigned and the member who got it
+  if (teamMembers.isEmpty || roles.isEmpty) {
+    print("$yellow No assignments available.$reset");
+    return;
+  }
+  // Find the last role assigned (last in roles list)
+  Role lastRole = roles.last;
+  // Find which member got the last role (round-robin logic)
+  TeamMember lastMember = teamMembers[(roles.length - 1) % teamMembers.length];
+  String assignment = "${lastMember.name} was assigned with '${lastRole.title}'";
+  lastAssigned.store(assignment);
+
   if (lastAssigned.data != null) {
-    print("$green${lastAssigned}$reset");
+    print("$green${lastAssigned.data}$reset");
   } else {
     print("$yellow No last assignment stored.$reset");
   }
